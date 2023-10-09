@@ -20,7 +20,7 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
+  console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
   return $(`
@@ -50,3 +50,24 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** Adds a new story to storyList and puts on page */
+
+async function submitNewStory(evt) {
+  console.debug("submitNewStory", evt);
+  evt.preventDefault();
+  const author = $("#submit-author").val();
+  const title = $("#submit-title").val();
+  const url = $("#submit-url").val();
+
+  const story = await storyList.addStory(currentUser, {title, author, url});
+
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
+
+  // Got this from the example site - hides the story
+  $submitStoryForm.slideUp();
+  $submitStoryForm.trigger("reset");
+}
+
+$submitStoryForm.on("submit", submitNewStory);
