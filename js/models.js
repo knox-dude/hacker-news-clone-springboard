@@ -74,13 +74,15 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    console.debug("add story", user,newStory);
+    console.debug("add story", user, newStory);
+    
     const token = user.loginToken;
     const {data} = await axios({
       method:"post",
       url:`${BASE_URL}/stories`,
       data: { token, story: {...newStory} }
     });
+
     const storyAdded = new Story(data.story);
     this.stories.push(storyAdded, 0);
     return storyAdded;
@@ -242,8 +244,8 @@ class User {
 
   /** Return true if story is user's favorite */
 
-  isFavoriteStory(storyId) {
-    return this.favorites.some(s => s.storyId === storyId);
+  isFavoriteStory(story) {
+    return this.favorites.some(s => s.storyId === story.storyId);
   }
 
 }

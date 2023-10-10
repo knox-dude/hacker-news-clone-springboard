@@ -37,3 +37,7 @@
 .story-user {
   display: block;
 }
+
+.stories-list .fa-star:hover {
+  cursor: pointer;
+}

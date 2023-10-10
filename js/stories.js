@@ -22,11 +22,17 @@ async function getAndShowStoriesOnStart() {
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
-  const isFav = currentUser.isFavoriteStory(story);
+  // if logged in, add stars to songs to display favorites
+  let star = "";
+  if (currentUser) {
+    const isFav = currentUser.isFavoriteStory(story);
+    star = generateFavoriteSymbol(isFav);
+  }
 
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+        ${star}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -35,6 +41,20 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+/** A helper method to generate HTML for the favorite (star) icon next to a story */
+
+function generateFavoriteSymbol(isFav) {
+  if (currentUser) {
+    if (isFav) {
+      return '<span class="star"><i class="fas fa-star"></i></span>';
+    } else {
+      return '<span class="star"><i class="far fa-star"></i></span>';
+    }
+  } else {
+    return 
+  }
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -73,3 +93,24 @@ async function submitNewStory(evt) {
 }
 
 $submitStoryForm.on("submit", submitNewStory);
+
+/** UI functionality for adding/removing story from favorites */
+
+async function clickOnStar(evt) {
+  console.debug("clickOnStar", evt);
+
+  // find the story we are looking for using id
+  const storyId = evt.currentTarget.parentElement.id;
+  const clickedStory = storyList.stories.find(s => s.storyId===storyId);
+
+  if ($(evt.target).hasClass('far')) { // fill star and add to favorites
+    $(evt.target).addClass('fas').removeClass('far');
+    await currentUser.addToFavorites(clickedStory);
+  } 
+  else {                               // de-fill star and remove from favorites
+    $(evt.target).addClass('far').removeClass('fas');
+    await currentUser.removeFromFavorites(clickedStory);
+  }
+}
+
+$allStoriesList.on("click", ".star", clickOnStar);
