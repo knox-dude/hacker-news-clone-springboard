@@ -19,8 +19,14 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
-function generateStoryMarkup(story) {
+function generateStoryMarkup(story, isUserStory=false) {
   // console.debug("generateStoryMarkup", story);
+
+  // if filling in user's stories, add trash can to allow deleting
+  let trashCan = "";
+  if (isUserStory) {
+    trashCan = ('<span class="trash-can"><i class="fas fa-trash-alt"></i></span>');
+  }
 
   // if logged in, add stars to songs to display favorites
   let star = "";
@@ -32,6 +38,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+        ${trashCan}
         ${star}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -71,6 +78,41 @@ function putStoriesOnPage() {
   }
 
   $allStoriesList.show();
+}
+
+/** Puts user's favorited stories on the page */
+
+function putFavoriteStoriesOnPage() {
+  console.debug("putFavoriteStoriesOnPage");
+
+  $favoritesList.empty();
+
+  if (currentUser.favorites.length < 1) {
+    $favoritesList.append("<h5>User has no favorited stories!</h5>");
+  } else {
+    for (let story of currentUser.favorites) {
+      $favoritesList.append(generateStoryMarkup(story));
+    }
+  }
+
+  $favoritesList.show();
+}
+
+/** Puts user's own stories on the page */
+
+function putUserStoriesOnPage() {
+
+  $userStoriesList.empty();
+
+  if (currentUser.ownStories.length < 1) {
+    $userStoriesList.append("<h5>User has not created any stories!</h5>");
+  } else {
+    for (let story of currentUser.ownStories) {
+      $userStoriesList.append(generateStoryMarkup(story, true));
+    }
+  }
+
+  $userStoriesList.show();
 }
 
 /** Adds a new story to storyList and puts on page */

@@ -41,3 +41,8 @@
 .stories-list .fa-star:hover {
   cursor: pointer;
 }
+
+.stories-list .fa-trash-alt:hover {
+  cursor: pointer;
+  color: crimson;
+}

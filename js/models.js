@@ -85,6 +85,7 @@ class StoryList {
 
     const storyAdded = new Story(data.story);
     this.stories.push(storyAdded, 0);
+    user.ownStories.push(storyAdded, 0);
     return storyAdded;
   }
 }
@@ -247,5 +248,4 @@ class User {
   isFavoriteStory(story) {
     return this.favorites.some(s => s.storyId === story.storyId);
   }
-
 }
