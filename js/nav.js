@@ -46,6 +46,8 @@ function navFavoritesClick(evt) {
 
 $navFavorites.on("click", navFavoritesClick);
 
+/** Show users own stories on click "my stories" */
+
 function navUserStoriesClick(evt) {
   console.debug("navUserStoriesClick")
   hidePageComponents();
@@ -53,6 +55,16 @@ function navUserStoriesClick(evt) {
 }
 
 $navUserStories.on("click", navUserStoriesClick);
+
+/** Show info about user profile on click "${username}" */
+
+function navUserProfileClick(evt) {
+  hidePageComponents();
+  showUserInfo();
+  $userProfile.show();
+}
+
+$navUserProfile.on("click", navUserProfileClick)
 
 /** When a user first logins in, update the navbar to reflect that. */
 
