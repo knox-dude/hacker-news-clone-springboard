@@ -108,7 +108,10 @@ function putUserStoriesOnPage() {
     $userStoriesList.append("<h5>User has not created any stories!</h5>");
   } else {
     for (let story of currentUser.ownStories) {
-      $userStoriesList.append(generateStoryMarkup(story, true));
+      // I had a weird bug where there was an int in ownStories
+      if (story instanceof Story) {
+        $userStoriesList.append(generateStoryMarkup(story, true));
+      }  
     }
   }
 
@@ -155,4 +158,22 @@ async function clickOnStar(evt) {
   }
 }
 
-$allStoriesList.on("click", ".star", clickOnStar);
+$storiesList.on("click", ".star", clickOnStar);
+
+/** UI functionality for deleting a user's own story */
+
+async function clickOnTrashCan(evt) {
+  console.debug("clickOnTrashCan", evt);
+
+  const storyId = evt.currentTarget.parentElement.id;
+  const clickedStory = currentUser.ownStories.find(s => s.storyId===storyId);
+
+  // use API to delete story from database
+  await currentUser.deleteUserStory(clickedStory);
+  // delete story from storyList
+  storyList.deleteStoryFromStoryList(clickedStory);
+
+  putUserStoriesOnPage();
+}
+
+$storiesList.on("click", ".trash-can", clickOnTrashCan);

@@ -84,9 +84,15 @@ class StoryList {
     });
 
     const storyAdded = new Story(data.story);
-    this.stories.push(storyAdded, 0);
-    user.ownStories.push(storyAdded, 0);
+    this.stories.unshift(storyAdded);
+    user.ownStories.unshift(storyAdded);
     return storyAdded;
+  }
+
+  /** Deletes a story from StoryList */
+
+  deleteStoryFromStoryList(story) {
+    this.stories = this.stories.filter(s => s.storyId !== story.storyId);
   }
 }
 
@@ -248,4 +254,19 @@ class User {
   isFavoriteStory(story) {
     return this.favorites.some(s => s.storyId === story.storyId);
   }
+
+  /** Deletes a user's created story */
+
+  async deleteUserStory(story) {
+    currentUser.ownStories = currentUser.ownStories.filter(s => s.storyId !== story.storyId);
+    if (this.isFavoriteStory(story)) {
+      this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
+    }
+    await axios({
+      method:"DELETE",
+      url:`${BASE_URL}/stories/${story.storyId}`,
+      data: {token:this.loginToken}
+    });
+  }
+
 }
