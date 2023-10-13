@@ -8,6 +8,8 @@
   color: gray;
   font-size: 0.8rem;
   margin: 10px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
 }
 
 #stories-loading-msg {
@@ -22,20 +24,28 @@
 .story-link {
   color: black;
   font-size: 0.85rem;
-  font-weight: normal;
+  font-weight:normal;
   margin: 18px 0;
+  padding: 18px 0px;
 }
 
 .story-link:hover {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .story-author {
-  margin-left: 2em;
+  display: block;
+  font-size: 0.85rem;
+  margin-left: 1.5em;
+  color: green;
+  padding: 5px 0;
 }
 
 .story-user {
   display: block;
+  font-size: 0.85rem;
+  margin-left: 1.5em;
+  color:orange;
 }
 
 .stories-list .fa-star:hover {
