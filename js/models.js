@@ -259,7 +259,8 @@ class User {
 
   async deleteUserStory(story) {
     currentUser.ownStories = currentUser.ownStories.filter(s => s.storyId !== story.storyId);
-    if (this.isFavoriteStory(story)) {
+
+    if (this.isFavoriteStory(story)) { // removes story to delete from favorites
       this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
     }
     await axios({

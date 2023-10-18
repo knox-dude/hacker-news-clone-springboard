@@ -2,26 +2,26 @@
 
 // So we don't have to keep re-finding things on page, find DOM elements once:
 
-const $body = $("body");
+let $body;
 
-const $storiesLoadingMsg = $("#stories-loading-msg");
-const $allStoriesList = $("#all-stories-list");
-const $favoritesList = $("#favorites-list");
-const $userStoriesList = $("#user-stories-list");
-const $storiesList = $(".stories-list");
-const $userProfile = $("#user-profile");
+let $storiesLoadingMsg;
+let $allStoriesList;
+let $favoritesList;
+let $userStoriesList;
+let $storiesList;
+let $userProfile;
 
-const $loginForm = $("#login-form");
-const $submitStoryForm = $('#submit-story-form')
-const $signupForm = $("#signup-form");
+let $loginForm;
+let $submitStoryForm;
+let $signupForm;
 
-const $mainNavLinks = $(".main-nav-links");
-const $navLogin = $("#nav-login");
-const $navSubmitStory = $("#nav-submit-story")
-const $navUserProfile = $("#nav-user-profile");
-const $navFavorites = $("#nav-favorites");
-const $navUserStories = $("#nav-user-stories");
-const $navLogOut = $("#nav-logout");
+let $mainNavLinks;
+let $navLogin;
+let $navSubmitStory;
+let $navUserProfile;
+let $navFavorites;
+let $navUserStories;
+let $navLogOut;
 
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After
@@ -43,6 +43,27 @@ function hidePageComponents() {
 
 async function start() {
   console.debug("start");
+  $body = $("body");
+
+  $allStoriesList = $("#all-stories-list");
+  $storiesLoadingMsg = $("#stories-loading-msg");
+  $favoritesList = $("#favorites-list");
+  $userStoriesList = $("#user-stories-list");
+  $storiesList = $(".stories-list");
+  $userProfile = $("#user-profile");
+  
+  $loginForm = $("#login-form");
+  $submitStoryForm = $('#submit-story-form')
+  $signupForm = $("#signup-form");
+  
+  $mainNavLinks = $(".main-nav-links");
+  $navLogin = $("#nav-login");
+  $navSubmitStory = $("#nav-submit-story")
+  $navUserProfile = $("#nav-user-profile");
+  $navFavorites = $("#nav-favorites");
+  $navUserStories = $("#nav-user-stories");
+  $navLogOut = $("#nav-logout");
+
 
   // "Remember logged-in user" and log in, if credentials in localStorage
   await checkForRememberedUser();
@@ -58,4 +79,10 @@ console.warn("HEY STUDENT: This program sends many debug messages to" +
   " the console. If you don't see the message 'start' below this, you're not" +
   " seeing those helpful debug messages. In your browser console, click on" +
   " menu 'Default Levels' and add Verbose");
-$(start);
+// $(start);
+
+// document.onload(make a run function)
+// do event listener on domContentLoaded - everything should exist when domContentLoaded is fired
+// define everything in global to be able to use, but instantiate them in this run function below
+
+document.addEventListener("DOMContentLoaded", start)

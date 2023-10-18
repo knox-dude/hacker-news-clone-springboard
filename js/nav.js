@@ -12,7 +12,7 @@ function navAllStories(evt) {
   putStoriesOnPage();
 }
 
-$body.on("click", "#nav-all", navAllStories);
+// $body.on("click", "#nav-all", navAllStories);
 
 /** Show login/signup forms on click on "login" */
 
@@ -23,7 +23,7 @@ function navLoginClick(evt) {
   $signupForm.show();
 }
 
-$navLogin.on("click", navLoginClick);
+// $navLogin.on("click", navLoginClick);
 
 /** Show new story form on click "submit" */
 
@@ -34,7 +34,7 @@ function navSubmitClick(evt) {
   $submitStoryForm.show();
 }
 
-$navSubmitStory.on("click", navSubmitClick);
+// $navSubmitStory.on("click", navSubmitClick);
 
 /** Show users favorited stories on click "favorites" */
 
@@ -44,7 +44,7 @@ function navFavoritesClick(evt) {
   putFavoriteStoriesOnPage();
 }
 
-$navFavorites.on("click", navFavoritesClick);
+// $navFavorites.on("click", navFavoritesClick);
 
 /** Show users own stories on click "my stories" */
 
@@ -54,7 +54,7 @@ function navUserStoriesClick(evt) {
   putUserStoriesOnPage();
 }
 
-$navUserStories.on("click", navUserStoriesClick);
+// $navUserStories.on("click", navUserStoriesClick);
 
 /** Show info about user profile on click "${username}" */
 
@@ -64,7 +64,7 @@ function navUserProfileClick(evt) {
   $userProfile.show();
 }
 
-$navUserProfile.on("click", navUserProfileClick)
+// $navUserProfile.on("click", navUserProfileClick)
 
 /** When a user first logins in, update the navbar to reflect that. */
 
@@ -75,3 +75,16 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+
+
+function addNavListeners() {
+  $body.on("click", "#nav-all", navAllStories);
+  $navLogin.on("click", navLoginClick);
+  $navSubmitStory.on("click", navSubmitClick);
+  $navFavorites.on("click", navFavoritesClick);
+  $navUserStories.on("click", navUserStoriesClick);
+  $navUserProfile.on("click", navUserProfileClick)
+}
+
+document.addEventListener("DOMContentLoaded", addNavListeners);

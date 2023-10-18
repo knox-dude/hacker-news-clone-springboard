@@ -89,10 +89,12 @@ function putFavoriteStoriesOnPage() {
 
   if (currentUser.favorites.length < 1) {
     $favoritesList.append("<h5>User has no favorited stories!</h5>");
-  } else {
-    for (let story of currentUser.favorites) {
-      $favoritesList.append(generateStoryMarkup(story));
-    }
+    $favoritesList.show();
+    return;
+  } 
+
+  for (let story of currentUser.favorites) {
+    $favoritesList.append(generateStoryMarkup(story));
   }
 
   $favoritesList.show();
@@ -106,13 +108,14 @@ function putUserStoriesOnPage() {
 
   if (currentUser.ownStories.length < 1) {
     $userStoriesList.append("<h5>User has not created any stories!</h5>");
-  } else {
-    for (let story of currentUser.ownStories) {
-      // I had a weird bug where there was an int in ownStories
-      if (story instanceof Story) {
-        $userStoriesList.append(generateStoryMarkup(story, true));
-      }  
-    }
+    $userStoriesList.show();
+    return;
+  }
+
+  for (let story of currentUser.ownStories) {
+    if (story instanceof Story) {
+      $userStoriesList.append(generateStoryMarkup(story, true));
+    }  
   }
 
   $userStoriesList.show();
@@ -137,7 +140,7 @@ async function submitNewStory(evt) {
   $submitStoryForm.trigger("reset");
 }
 
-$submitStoryForm.on("submit", submitNewStory);
+// $submitStoryForm.on("submit", submitNewStory);
 
 /** UI functionality for adding/removing story from favorites */
 
@@ -158,7 +161,7 @@ async function clickOnStar(evt) {
   }
 }
 
-$storiesList.on("click", ".star", clickOnStar);
+// $storiesList.on("click", ".star", clickOnStar);
 
 /** UI functionality for deleting a user's own story */
 
@@ -176,4 +179,14 @@ async function clickOnTrashCan(evt) {
   putUserStoriesOnPage();
 }
 
-$storiesList.on("click", ".trash-can", clickOnTrashCan);
+// $storiesList.on("click", ".trash-can", clickOnTrashCan);
+
+/** Adds event listeners once the DOM content has been loaded */
+
+function addStoriesListeners() {
+  $submitStoryForm.on("submit", submitNewStory);
+  $storiesList.on("click", ".star", clickOnStar);
+  $storiesList.on("click", ".trash-can", clickOnTrashCan);
+}
+
+document.addEventListener("DOMContentLoaded", addStoriesListeners);

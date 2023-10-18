@@ -27,7 +27,7 @@ async function login(evt) {
   updateUIOnUserLogin();
 }
 
-$loginForm.on("submit", login);
+// $loginForm.on("submit", login);
 
 /** Handle signup form submission. */
 
@@ -49,7 +49,7 @@ async function signup(evt) {
   $signupForm.trigger("reset");
 }
 
-$signupForm.on("submit", signup);
+// $signupForm.on("submit", signup);
 
 /** Handle click of logout button
  *
@@ -62,7 +62,7 @@ function logout(evt) {
   location.reload();
 }
 
-$navLogOut.on("click", logout);
+// $navLogOut.on("click", logout);
 
 /******************************************************************************
  * Storing/recalling previously-logged-in-user with localStorage
@@ -110,6 +110,7 @@ function saveUserCredentialsInLocalStorage() {
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
+  hidePageComponents();
   putStoriesOnPage();
 
   updateNavOnLogin();
@@ -122,3 +123,13 @@ function showUserInfo() {
   $("#profile-username").text(currentUser.username);
   $("#profile-account-date").text(currentUser.createdAt.slice(0, 10));
 }
+
+/** Adds event listeners after the DOM has been loaded */
+
+function addUserListeners() {
+  $navLogOut.on("click", logout);
+  $signupForm.on("submit", signup);
+  $loginForm.on("submit", login);
+}
+
+document.addEventListener("DOMContentLoaded", addUserListeners);
